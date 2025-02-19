@@ -55,7 +55,7 @@ void update_points(t_vars *vars, char rotation_axis)
     int x;
     int y;
 
-    vars->offset_x = 1920 / 2 - (vars->map.width) * vars->scale / 2;
+    vars->offset_x = 1920 / 2 - (vars-smap.width) * vars->scale / 2;
     vars->offset_y = 1080 / 2 - (vars->map.height - 1) * vars->scale / 2;
     for (y = 0; y < vars->map.height; y++) {
         for (x = 0; x < vars->map.width; x++) {

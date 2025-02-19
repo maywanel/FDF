@@ -86,7 +86,7 @@ void draw_map(t_vars *vars)
             if (x < vars->map.width - 1)
                 horizontal_lines(vars, x, y, color);
             if (y < vars->map.height - 1)
-                vertical_lines(vars, x, y + 1, color);
+                vertical_lines(vars, x, y, color);
             x++;
         }
         y++;
