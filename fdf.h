@@ -23,7 +23,6 @@ typedef struct s_point {
     int transformed_y;
 } t_point;
 
-
 typedef struct s_vars {
     void *mlx;
     void *win;
@@ -31,7 +30,9 @@ typedef struct s_vars {
     int offset_x;
     int offset_y;
     int scale;
-    double angle;
+    double angle_x;
+    double angle_y;
+    double angle_z;
     float z_scale;
     void *img;
     char *addr;
@@ -71,7 +72,7 @@ int get_height_color(int height);
 int is_visible(int x, int y);
 char **ft_split(char *str, char delimiter);
 int ft_atoi(const char *str);
-void update_points(t_vars *vars, char rotation_axis);
+void update_points(t_vars *vars);
 void apply_projection(t_point *p, t_vars *vars);
 void rotate_z(int *x, int *y, double angle);
 void rotate_y(int *x, int *z, double angle);

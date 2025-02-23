@@ -12,32 +12,23 @@ int handle_keypress(int keysym, t_vars *vars)
         vars->offset_y -= 10;
     else if (keysym == UP)
         vars->offset_y += 10;
-    else if (keysym == Q) {
+    else if (keysym == Q)
         vars->z_scale = vars->z_scale - 1;
-        update_points(vars, 'z');
-    }
-    else if (keysym == Y) {
-        vars->angle += 0.1f;
-        update_points(vars, 'y');
-    }
-    else if (keysym == Z) {
-        vars->angle += 0.1f;
-        update_points(vars, 'z');
-    }
-    else if (keysym == X) {
-        vars->angle += 0.1f;
-        update_points(vars, 'x');
-    }
+    else if (keysym == Y)
+        vars->angle_y += 0.1;
+    else if (keysym == Z)
+        vars->angle_z += 0.1;
+    else if (keysym == X)
+        vars->angle_x += 0.1;
     else if (keysym == PLUS) {
         vars->z_scale += 0.5;
         vars->scale += 1;
-        update_points(vars, 's');
     }
-    else if (keysym == MINES) {
+    else if (keysym == MINES)
+    {
       if (vars->z_scale)
         vars->z_scale -= 0.5;
     vars->scale = (vars->scale > 1) ? vars->scale - 1 : 1;
-    update_points(vars, 's');
     }
     else if (keysym == P)
     {
@@ -45,8 +36,8 @@ int handle_keypress(int keysym, t_vars *vars)
         vars->projection = 0;
     else
         vars->projection = 1;
-    update_points(vars, 's');
     }
+    update_points(vars);
     draw_map(vars);
     return 0;
 }

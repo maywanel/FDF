@@ -4,6 +4,12 @@ void clean_exit(t_vars *vars)
 {
     if (vars->points) {
         for (int i = 0; i < vars->map.height; i++) {
+            free(vars->points[i]);
+        }
+        free(vars->points);
+    }
+    if (vars->points) {
+        for (int i = 0; i < vars->map.height; i++) {
             if (vars->points[i])
                 free(vars->points[i]);
         }
