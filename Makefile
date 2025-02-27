@@ -2,22 +2,35 @@ CC = gcc
 CFLAGS = -Wall -Wextra -Werror
 LDFLAGS = -L./minilibx -lmlx -lXext -lX11 -lm
 INCLUDES = -I./minilibx -I./
-SRC = src/clean.c src/draw.c src/get_next_line.c src/get_next_line_utils.c src/key.c src/parsing.c src/projection.c src/utils.c
+SRC = src/color.c src/clean.c src/draw.c src/get_next_line.c src/get_next_line_utils.c src/key.c src/parsing.c src/projection.c src/projection_2.c src/utils.c src/init.c src/split.c
 OBJ = $(SRC:.c=.o)
 NAME = fdf
 
-GREEN = \033[0;32m
-RED = \033[0;31m
-YELLOW = \033[0;33m
-BLUE = \033[0;34m
-RESET = \033[0m
+GREY     = \033[0;30m
+RED      = \033[0;31m
+GREEN    = \033[0;32m
+YELLOW   = \033[0;33m
+BLUE     = \033[0;34m
+PURPLE   = \033[0;35m
+CYAN     = \033[0;36m
+WHITE    = \033[0;37m
+BOLD     = \033[1m
+UNDER    = \033[4m
+REV      = \033[7m
+BLINK    = \033[5m
+NC       = \033[0;0m
+RESET    = \033[0m
 
-all: $(NAME)
+NORM = $(shell if [ $$(norminette src fdf.h | wc -l) -eq 15 ]; then echo OK; else echo KO; fi)
 
-$(NAME): $(OBJ)
+
+all: $(NAME) clean
+	@echo "$(YELLOW)norminette: $(NORM)$(RESET)"
+
+$(NAME): src/main.c fdf.h $(OBJ)
+	@make --no-print-directory start_message
 	@$(CC) $(CFLAGS) $(OBJ) src/main.c -o $(NAME) $(LDFLAGS) $(INCLUDES)
-	@echo "$(GREEN)Building $(NAME)...$(RESET)"
-	@echo "$(BLUE)FDF is created.$(RESET)"
+	@make --no-print-directory end_message
 
 %.o: %.c
 	@$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
@@ -29,6 +42,15 @@ clean:
 fclean: clean
 	@rm -f $(NAME)
 	@echo "$(RED)Cleaned executables.$(RESET)"
+
+end_message:
+	@echo "$(NC)╔══════════════════════════════════════════════╗"
+	@echo "$(NC)║ $(GREEN)       $(BLINK)> $(WHITE)FdF successfully compiled! $(GREEN)$(BLINK)<        $(NC)║"
+	@echo "$(NC)╚══════════════════════════════════════════════╝"
+start_message:
+	@echo "$(NC)╔══════════════════════════════════════════════╗"
+	@echo "$(NC)║ $(GREEN)                 $(WHITE)Building FDF $(GREEN)$(BLINK).$(BLINK).$(BLINK).            $(NC)║"
+	@echo "$(NC)╚══════════════════════════════════════════════╝"
 
 re: fclean all
 

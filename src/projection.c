@@ -1,76 +1,54 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   projection.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: moel-mes <moel-mes@student.1337.ma>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/02/23 15:52:30 by moel-mes          #+#    #+#             */
+/*   Updated: 2025/02/26 16:17:05 by moel-mes         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "fdf.h"
 
-void rotate_x(int *y, int *z, double angle)
+void	apply_projection(t_point *p, t_vars *vars)
 {
-    double previous_y = *y;
-    double previous_z = *z;
-
-    *y = previous_y * cos(angle) - previous_z * sin(angle);
-    *z = previous_y * sin(angle) + previous_z * cos(angle);
+	if (vars->projection == 0)
+		isometric_projection(p);
+	else if (vars->projection == 1)
+		perspective_projection(p);
 }
 
-void rotate_y(int *x, int *z, double angle)
+static void	transform_point(t_point *point, t_vars *vars, int x, int y)
 {
-    double previous_x = *x;
-    double previous_z = *z;
-
-    *x = previous_x * cos(angle) - previous_z * sin(angle);
-    *z = previous_x * sin(angle) + previous_z * cos(angle);
+	point->x = x * vars->scale;
+	point->y = y * vars->scale;
+	point->z = vars->map.data[y][x] * vars->z_scale;
+	rotate_z(&point->x, &point->y, vars->angle_z);
+	rotate_y(&point->x, &point->z, vars->angle_y);
+	rotate_x(&point->y, &point->z, vars->angle_x);
+	apply_projection(point, vars);
+	point->transformed_x = point->x;
+	point->transformed_y = point->y;
 }
 
-void rotate_z(int *x, int *y, double angle)
+void	update_points(t_vars *vars)
 {
-    double previous_x = *x;
-    double previous_y = *y;
+	int	x;
+	int	y;
 
-    *x = previous_x * cos(angle) - previous_y * sin(angle);
-    *y = previous_x * sin(angle) + previous_y * cos(angle);
-}
-
-void apply_projection(t_point *p, t_vars *vars)
-{
-    if (vars->projection == 0) {
-        double iso_angle = 0.523599;
-        int prev_x = p->x;
-        int prev_y = p->y;
-        int prev_z = p->z;
-        
-        p->x = (prev_x - prev_y) * cos(iso_angle);
-        p->y = (prev_x + prev_y) * sin(iso_angle) - prev_z;
-    } 
-    else if (vars->projection == 1) {
-        double camera_distance = 1000.0;
-        double depth = p->z + camera_distance;
-        
-        if (depth > 0) {
-            p->x = (p->x * camera_distance) / depth;
-            p->y = (p->y * camera_distance) / depth;
-        }
-    }
-}
-
-void update_points(t_vars *vars)
-{
-    int x;
-    int y;
-
-    if (!vars || !vars->points || vars->map.height <= 0 || vars->map.width <= 0)
-        return;
-    vars->offset_x = 1920 / 2 - (vars->map.width) * vars->scale / 2;
-    vars->offset_y = 1080 / 2 - (vars->map.height - 1) * vars->scale / 2;
-    for (y = 0; y < vars->map.height; y++) {
-        for (x = 0; x < vars->map.width; x++) {
-            vars->points[y][x].x = x * vars->scale;
-            vars->points[y][x].y = y * vars->scale;
-            vars->points[y][x].z = vars->map.data[y][x] * vars->z_scale;
-
-            rotate_z(&vars->points[y][x].x, &vars->points[y][x].y, vars->angle_z);
-            rotate_y(&vars->points[y][x].x, &vars->points[y][x].z, vars->angle_y);
-            rotate_x(&vars->points[y][x].y, &vars->points[y][x].z, vars->angle_x);
-
-            apply_projection(&vars->points[y][x], vars);
-            vars->points[y][x].transformed_x = vars->points[y][x].x;
-            vars->points[y][x].transformed_y = vars->points[y][x].y;
-        }
-    }
+	if (!vars || !vars->points || vars->map.height <= 0 || vars->map.width <= 0)
+		return ;
+	y = 0;
+	while (y < vars->map.height)
+	{
+		x = 0;
+		while (x < vars->map.width)
+		{
+			transform_point(&vars->points[y][x], vars, x, y);
+			x++;
+		}
+		y++;
+	}
 }
