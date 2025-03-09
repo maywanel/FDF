@@ -68,7 +68,7 @@ char	*ft_strdup(char *s)
 	return (new_str);
 }
 
-char	*ft_strjoin(char *s1, char *s2)
+char	*ft_strjoin(char *s1, char *s2, int f)
 {
 	char	*new_str;
 	int		len1;
@@ -88,6 +88,11 @@ char	*ft_strjoin(char *s1, char *s2)
 	}
 	ft_strcpy(new_str, s1, len1);
 	ft_strcpy(new_str + len1, s2, len2);
-	free(s1);
+	if (f)
+		free(s1);
+	else
+		free(s2);
+	if (f == 2)
+		free(s2);
 	return (new_str);
 }

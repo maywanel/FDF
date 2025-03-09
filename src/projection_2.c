@@ -65,7 +65,7 @@ void	perspective_projection(t_point *p)
 	double	camera_distance;
 	double	depth;
 
-	camera_distance = 1000.0;
+	camera_distance = 1000000;
 	depth = p->z + camera_distance;
 	if (depth > 0)
 	{

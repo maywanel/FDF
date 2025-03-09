@@ -57,7 +57,7 @@ char	*read_line(int fd, char **line, char *buf)
 	while (r > 0)
 	{
 		buf[r] = '\0';
-		*line = ft_strjoin(*line, buf);
+		*line = ft_strjoin(*line, buf, 1);
 		if (!(*line))
 			return (NULL);
 		n = check_line(*line);

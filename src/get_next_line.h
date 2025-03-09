@@ -24,7 +24,7 @@
 # define MAX 2147483647
 
 char	*ft_substr(char *s, int start, int end);
-char	*ft_strjoin(char *s1, char *s2);
+char	*ft_strjoin(char *s1, char *s2, int f);
 char	*ft_strcpy(char *s, const char *str, int len);
 int		ft_strlen(char *s);
 char	*ft_strdup(char *s);

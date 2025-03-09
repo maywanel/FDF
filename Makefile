@@ -2,7 +2,7 @@ CC = gcc
 CFLAGS = -Wall -Wextra -Werror
 LDFLAGS = -L./minilibx -lmlx -lXext -lX11 -lm
 INCLUDES = -I./minilibx -I./
-SRC = src/color.c src/clean.c src/draw.c src/get_next_line.c src/get_next_line_utils.c src/key.c src/parsing.c src/projection.c src/projection_2.c src/utils.c src/init.c src/split.c
+SRC = $(wildcard src/*.c)
 OBJ = $(SRC:.c=.o)
 NAME = fdf
 
@@ -24,16 +24,21 @@ RESET    = \033[0m
 NORM = $(shell if [ $$(norminette src fdf.h | wc -l) -eq 15 ]; then echo OK; else echo KO; fi)
 
 
-all: $(NAME) clean
+all: mlx_make $(NAME) clean
 	@echo "$(YELLOW)norminette: $(NORM)$(RESET)"
 
-$(NAME): src/main.c fdf.h $(OBJ)
+$(NAME): main.c fdf.h $(OBJ)
 	@make --no-print-directory start_message
-	@$(CC) $(CFLAGS) $(OBJ) src/main.c -o $(NAME) $(LDFLAGS) $(INCLUDES)
+	@$(CC) $(CFLAGS) $(OBJ) main.c -o $(NAME) $(LDFLAGS) $(INCLUDES)
 	@make --no-print-directory end_message
 
 %.o: %.c
 	@$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
+
+mlx_make:
+	@if [ ! -f minilibx ]; then \
+		make --no-print-directory -C minilibx all; \
+	fi
 
 clean:
 	@rm -f $(OBJ)

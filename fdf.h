@@ -24,6 +24,16 @@
 # include <time.h>
 # include <unistd.h>
 
+typedef struct s_theme
+{
+	char	*name;
+	int		background_top;
+	int		background_bottom;
+	int		low_color;
+	int		high_color;
+	int		line_color;
+}	t_theme;
+
 typedef struct s_map
 {
 	int		**data;
@@ -77,7 +87,14 @@ typedef struct s_vars
 	int		projection;
 	int		screen_width;
 	int		screen_height;
+	int		current_theme;
+	int		background_color_top;
+	int		background_color_bottom;
+	int		low_color;
+	int		high_color;
+	int		line_color;
 }			t_vars;
+
 
 enum
 {
@@ -95,6 +112,21 @@ enum
 	MINES = 45,
 	SPACE = 32
 };
+
+int		get_elevation_color(int z, int z_min, int z_max);
+int		create_gradient(int color1, int color2, double percentage);
+int		blend_colors(int color1, int color2, double alpha);
+int		get_pixel_color(t_vars *data, int x, int y);
+
+// Drawing functions
+void	draw_line_aa(t_point p1, t_point p2, t_vars *data);
+void	plot_pixel_aa(t_vars *data, int x, int y, int color, float brightness);
+void	draw_background(t_vars *data);
+void	draw_ui_panel(t_vars *vars);
+char	*ft_itoa(int n);
+
+// Themes and animations
+void	apply_theme(t_vars *data, int theme_index);
 
 int			get_height_color(int height);
 char		**ft_split(char *s, char c);

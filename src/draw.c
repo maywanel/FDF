@@ -71,6 +71,7 @@ void	draw_map(t_vars *vars)
 	memset(vars->addr, 0, vars->screen_width * vars->screen_height
 		* (vars->bits_per_pixel / 8));
 	mlx_clear_window(vars->mlx, vars->win);
+	draw_background(vars);
 	while (y < vars->map.height)
 	{
 		x = 0;
@@ -85,4 +86,5 @@ void	draw_map(t_vars *vars)
 		y++;
 	}
 	mlx_put_image_to_window(vars->mlx, vars->win, vars->img, 0, 0);
+	draw_ui_panel(vars);
 }

@@ -67,9 +67,10 @@ int	main(int ac, char **av)
 		clean_exit(&vars);
 		return (1);
 	}
-	draw_map(&vars);
+	vars.current_theme = 0;
+	apply_theme(&vars, vars.current_theme);
 	mlx_hook(vars.win, 17, 0, close_window, &vars);
 	mlx_hook(vars.win, 2, 1L << 0, handle_keypress, &vars);
-	(mlx_loop(vars.mlx), clean_exit(&vars));
+	mlx_loop(vars.mlx), clean_exit(&vars);
 	return (0);
 }

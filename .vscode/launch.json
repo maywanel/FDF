@@ -1,0 +1,18 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Debug fdf",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/fdf",
+            "args": ["hard_map/42.fdf"],  
+            "stopAtEntry": true,
+            "cwd": "${workspaceFolder}",
+            "environment": [],
+            "externalConsole": false,
+            "MIMode": "gdb",
+            "miDebuggerPath": "/usr/bin/gdb"
+        }
+    ]
+}

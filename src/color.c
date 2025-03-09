@@ -91,3 +91,44 @@ int	get_height_color(int height)
 	t = (float)(height - h1) / (h2 - h1);
 	return (interpolate(get_stop_color(idx), get_stop_color(idx + 1), t));
 }
+
+int	get_elevation_color(int z, int z_min, int z_max)
+{
+	double	percentage;
+	int		r, g, b;
+
+	if (z_min == z_max)
+		return (0x0000FF);	
+	percentage = (double)(z - z_min) / (z_max - z_min);
+	if (percentage < 0.2)
+	{
+		r = 0;
+		g = (int)(255 * (percentage / 0.2));
+		b = 255;
+	}
+	else if (percentage < 0.4)
+	{
+		r = 0;
+		g = 255;
+		b = 255 - (int)(255 * ((percentage - 0.2) / 0.2));
+	}
+	else if (percentage < 0.6)
+	{
+		r = (int)(255 * ((percentage - 0.4) / 0.2));
+		g = 255;
+		b = 0;
+	}
+	else if (percentage < 0.8)
+	{
+		r = 255;
+		g = 255 - (int)(255 * ((percentage - 0.6) / 0.2));
+		b = 0;
+	}
+	else
+	{
+		r = 255;
+		g = (int)(255 * ((percentage - 0.8) / 0.2));
+		b = g;
+	}	
+	return ((r << 16) | (g << 8) | b);
+}

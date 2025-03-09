@@ -16,18 +16,13 @@ static int	allocate_map_data(t_map *map)
 {
 	int	i;
 
-	map->data = (int **)malloc(sizeof(int *) * map->height);
+	map->data = malloc(sizeof(int *) * map->height);
 	if (!map->data)
 		return (0);
 	i = 0;
 	while (i < map->height)
 	{
-		map->data[i] = (int *)malloc(sizeof(int) * map->width);
-		if (!map->data[i])
-		{
-			free(map->data);
-			exit(1);
-		}
+		map->data[i] = NULL;
 		i++;
 	}
 	return (1);
@@ -35,24 +30,31 @@ static int	allocate_map_data(t_map *map)
 
 static void	fill_map_row(t_map *map, char *line, int row)
 {
-	char	**split;
-	int		j;
-	int		k;
+    char	**split;
+    int		i;
+    int		j;
+    int		width;
 
-	split = ft_split(line, ' ');
-	j = 0;
-	k = 0;
-	while (split[k] != NULL)
-	{
-		if (split[k][0] != '\0')
-		{
-			map->data[row][j] = ft_atoi(split[k]);
-			j++;
-		}
-		free(split[k]);
-		k++;
-	}
-	free(split);
+    split = ft_split(line, ' ');
+    width = 0;
+    while (split[width] != NULL)
+        width++;
+    map->data[row] = malloc(sizeof(int) * width);
+    if (!map->data[row])
+        return ;
+    i = 0;
+    j = 0;
+    while (split[j] != NULL)
+    {
+        if (split[j][0] != '\0')
+        {
+            map->data[row][i] = ft_atoi(split[j]);
+            i++;
+        }
+        free(split[j]);
+        j++;
+    }
+    free(split);
 }
 
 static int	count_map_size(t_map *map, char *filename)

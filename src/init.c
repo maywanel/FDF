@@ -62,7 +62,7 @@ int	initialize_window(t_vars *vars)
 	}
 	mlx_get_screen_size(vars->mlx, &vars->screen_width, &vars->screen_height);
 	vars->offset_x = vars->screen_width / 2;
-	vars->offset_y = vars->screen_height / 3;
+	vars->offset_y = vars->screen_height / 5;
 	vars->win = mlx_new_window(vars->mlx, vars->screen_width,
 			vars->screen_height, "FDF");
 	if (!vars->win)
