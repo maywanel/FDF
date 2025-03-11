@@ -38,6 +38,14 @@ static void	handle_zoom_keys(int keysym, t_vars *vars)
 			vars->scale += 1;
 		}
 	}
+	if (keysym == 116)
+	{
+		if (vars->current_theme < 15)
+			vars->current_theme += 1;
+		if (vars->current_theme >= 15)
+			vars->current_theme = 0;
+		apply_theme(vars, vars->current_theme);
+	}
 	else if (keysym == MINES)
 	{
 		if (vars->z_scale > 1)
@@ -68,17 +76,7 @@ int	handle_keypress(int keysym, t_vars *vars)
 		else
 			vars->projection = 1;
 	}
-	if (keysym == 116)
-	{
-		if (vars->current_theme < 15)
-			vars->current_theme += 1;
-		if (vars->current_theme >= 15)
-			vars->current_theme = 0;
-		apply_theme(vars, vars->current_theme);
-	}
-	handle_rotate_keys(keysym, vars);
-	handle_zoom_keys(keysym, vars);
-	update_points(vars);
-	draw_map(vars);
+	(handle_rotate_keys(keysym, vars), handle_zoom_keys(keysym, vars));
+	(update_points(vars), draw_map(vars));
 	return (0);
 }

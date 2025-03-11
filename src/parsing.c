@@ -30,31 +30,31 @@ static int	allocate_map_data(t_map *map)
 
 static void	fill_map_row(t_map *map, char *line, int row)
 {
-    char	**split;
-    int		i;
-    int		j;
-    int		width;
+	char	**split;
+	int		i;
+	int		j;
+	int		width;
 
-    split = ft_split(line, ' ');
-    width = 0;
-    while (split[width] != NULL)
-        width++;
-    map->data[row] = malloc(sizeof(int) * width);
-    if (!map->data[row])
-        return ;
-    i = 0;
-    j = 0;
-    while (split[j] != NULL)
-    {
-        if (split[j][0] != '\0')
-        {
-            map->data[row][i] = ft_atoi(split[j]);
-            i++;
-        }
-        free(split[j]);
-        j++;
-    }
-    free(split);
+	split = ft_split(line, ' ');
+	width = 0;
+	while (split[width] != NULL)
+		width++;
+	map->data[row] = malloc(sizeof(int) * width);
+	if (!map->data[row])
+		return ;
+	i = 0;
+	j = 0;
+	while (split[j] != NULL)
+	{
+		if (split[j][0] != '\0')
+		{
+			map->data[row][i] = ft_atoi(split[j]);
+			i++;
+		}
+		free(split[j]);
+		j++;
+	}
+	free(split);
 }
 
 static int	count_map_size(t_map *map, char *filename)

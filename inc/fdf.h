@@ -13,8 +13,8 @@
 #ifndef FDF_H
 # define FDF_H
 
-# include "minilibx/mlx.h"
-# include "src/get_next_line.h"
+# include "../minilibx/mlx.h"
+# include "get_next_line.h"
 # include <fcntl.h>
 # include <limits.h>
 # include <math.h>
@@ -32,7 +32,7 @@ typedef struct s_theme
 	int		low_color;
 	int		high_color;
 	int		line_color;
-}	t_theme;
+}			t_theme;
 
 typedef struct s_map
 {
@@ -95,6 +95,18 @@ typedef struct s_vars
 	int		line_color;
 }			t_vars;
 
+typedef struct s_rgb
+{
+	int		r1;
+	int		g1;
+	int		b1;
+	int		r2;
+	int		g2;
+	int		b2;
+	int		r;
+	int		g;
+	int		b;
+}			t_rgb;
 
 enum
 {
@@ -113,20 +125,18 @@ enum
 	SPACE = 32
 };
 
-int		get_elevation_color(int z, int z_min, int z_max);
-int		create_gradient(int color1, int color2, double percentage);
-int		blend_colors(int color1, int color2, double alpha);
-int		get_pixel_color(t_vars *data, int x, int y);
+int			get_elevation_color(int z, int z_min, int z_max);
+int			create_gradient(int color1, int color2, double percentage);
+int			blend_colors(int color1, int color2, double alpha);
+int			get_pixel_color(t_vars *data, int x, int y);
 
 // Drawing functions
-void	draw_line_aa(t_point p1, t_point p2, t_vars *data);
-void	plot_pixel_aa(t_vars *data, int x, int y, int color, float brightness);
-void	draw_background(t_vars *data);
-void	draw_ui_panel(t_vars *vars);
-char	*ft_itoa(int n);
+void		draw_background(t_vars *data);
+void		draw_ui_panel(t_vars *vars);
+char		*ft_itoa(int n);
 
 // Themes and animations
-void	apply_theme(t_vars *data, int theme_index);
+void		apply_theme(t_vars *data, int theme_index);
 
 int			get_height_color(int height);
 char		**ft_split(char *s, char c);
@@ -153,5 +163,10 @@ void		perspective_projection(t_point *p);
 void		initialize_vars(t_vars *vars);
 int			initialize_image(t_vars *vars);
 int			initialize_window(t_vars *vars);
+int			get_color_first_range(double percentage);
+int			get_color_second_range(double percentage);
+int			get_color_third_range(double percentage);
+int			get_color_fourth_range(double percentage);
+int			get_color_fifth_range(double percentage);
 
 #endif

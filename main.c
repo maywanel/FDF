@@ -6,7 +6,7 @@
 /*   By: moel-mes <moel-mes@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 15:52:25 by moel-mes          #+#    #+#             */
-/*   Updated: 2025/02/27 10:59:23 by moel-mes         ###   ########.fr       */
+/*   Updated: 2025/03/09 15:17:08 by moel-mes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,8 +57,7 @@ int	main(int ac, char **av)
 	initialize_vars(&vars);
 	if (fdf_strstr(av[1]) || !read_map(&vars.map, av[1]))
 	{
-		write(2, "Error reading map\n", 18);
-		clean_exit(&vars);
+		(write(2, "Error reading map\n", 18), clean_exit(&vars));
 		return (1);
 	}
 	(calculate_scale(&vars), allocate_points(&vars), update_points(&vars));
@@ -70,7 +69,7 @@ int	main(int ac, char **av)
 	vars.current_theme = 0;
 	apply_theme(&vars, vars.current_theme);
 	mlx_hook(vars.win, 17, 0, close_window, &vars);
-	mlx_hook(vars.win, 2, 1L << 0, handle_keypress, &vars);
-	mlx_loop(vars.mlx), clean_exit(&vars);
+	mlx_hook(vars.win, 3, 1L << 1, handle_keypress, &vars);
+	(mlx_loop(vars.mlx), clean_exit(&vars));
 	return (0);
 }
